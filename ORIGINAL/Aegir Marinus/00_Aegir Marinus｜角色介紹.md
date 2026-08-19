@@ -1,14 +1,84 @@
 ---
 title: Aegir Marinus｜角色介紹
+
+---
+
+---
+title: Aegir Marinus｜角色介紹
 category: ORIGINAL / Aegir Marinus
 tags: [角色設定]
 ---
 
 # Aegir Marinus｜角色介紹
 
-![Aegir Marinus](images/Aegir Marinus.jpg)
+Aegir Marinus
+
+![Aegir Marinus](https://hackmd.io/_uploads/Syk-J1XPfx.png)
+
+TU(2021/07/12-2021/10/04)
+
+人設(TU期間)
+
+姓名：亞格爾 ‧ 瑪利納斯(Aegir Marius)
+生日：10月3日
+年齡：17(入學年齡)
+性別：男
+身高：176→179
+家人：雙親、兄、妹
+
+✦簡介(17歲~27歲)
+
+家為父輩才崛起的商戶，也就是俗稱的暴發戶。
+
+父系極為擅長水屬性魔法，母親則擅長火屬性。兄弟姊妹皆傳承父系的專長，與水屬性元素親和力較高。
+
+但亞格爾本人不願和兄長一樣專精於水魔法，強行自修風屬性的魔法，頗有小成，後雙親贈與他可吸收周圍過剩的水元素的耳環，讓亞格爾可以更順利地使用風魔法。
+
+17歲時入學五年制的魔法學園(企劃主要內容為一年級第一學期)，二年級與同校學姊凡妮莎(Vanessa)交往，三年級父親在進貨的時候死在從空島返回的貨船上，隔年母親傷心而亡後，妹妹亞納希塔出嫁。
+
+五年級凡妮莎死去，且兄長亞奎緹卡無故失蹤，家產清算時亞格爾才發現凡妮莎為自己的兄妹所謀殺，留下自己的耳環給妹妹後開始流浪。
+
+後與同學內特相遇，合內特一行人結伴直到內特死去(亞格爾27歲)。
+
+✦NPC
+
+父親：亞奎瑞斯(Aquarius Marinus)
+
+母親：亞格娜雅(Agnaye Marinus)
+
+哥哥：亞奎緹卡(Aquatica Marinus)
+├拉法拉(Rafaela)，血族
+└亞奎緹卡的幼馴染，兩個人為戀人。
+
+妹妹：亞納希塔(Anahita Marinus)
+└丈夫和拉法拉兩家不合。
+
+女友：凡妮莎(Vanessa)，巫族
+
+✦瑪利納斯無關緊要的細節
+
+◇亞奎緹卡失蹤是被拉法拉下了沉睡魔法，藉此讓亞奎緹卡放下家族，且讓亞奎緹卡在弟妹都死去之後才醒來
+
+◇凡妮莎時常餵給亞格爾的糖果或有相同味道的東西都是毒品
+
+◇亞納希塔與丈夫兩人為政治聯姻
+
+◇Marinus意指海洋
+
+◇亞納希塔嗜甜，亞格爾總幫她找甜食，常常被誤會喜歡甜食
+
+◇亞格爾是丸子頭大師
+---
+title: Aegir Marinus｜角色介紹
+category: ORIGINAL / Aegir Marinus
+tags: [角色設定]
+---
+
+# Aegir Marinus｜角色介紹
 
 Aegir Marinus
+
+![Aegir Marinus](https://hackmd.io/_uploads/Syk-J1XPfx.png)
 
 TU(2021/07/12-2021/10/04)
 
