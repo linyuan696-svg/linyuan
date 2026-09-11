@@ -21,6 +21,11 @@
 
 只想重新產生目錄、不處理任何動作時，可加參數：
        python sync_hackmd.py --index-only
+
+修正紀錄
+--------
+2026-09-11  每完成一篇就存檔，避免中途中斷時已完成的網址與動作欄全部遺失
+2026-09-11  修正動作欄清不掉：cell(r, c, None) 在 openpyxl 是空操作，改用 .value = None
 """
 
 import os
@@ -144,6 +149,14 @@ def backup_sheet():
     )
     for old in backups[KEEP_BACKUPS:]:
         os.remove(os.path.join(BACKUP_DIR, old))
+
+
+def save_sheet(wb):
+    """即時存檔。失敗不中斷主流程，下一次會再試。"""
+    try:
+        wb.save(SHEET_PATH)
+    except Exception as e:
+        print(f"    ⚠ 表格存檔失敗，稍後再試：{e}")
 
 
 def read_rows(ws):
@@ -284,9 +297,10 @@ def main():
         content = open(path, encoding="utf-8").read()
         try:
             _id, link = create_note(r["標題"], content)
-            wb[book].cell(i, COL["網址"], link)
-            wb[book].cell(i, COL["動作"], None)
+            wb[book].cell(i, COL["網址"]).value = link
+            wb[book].cell(i, COL["動作"]).value = None
             print(f"  ✓ 已新增：{r['標題']}")
+            save_sheet(wb)
         except Exception as e:
             print(f"  ✗ 新增失敗：{r['標題']} → {e}")
         time.sleep(SLEEP_SECONDS)
@@ -303,8 +317,9 @@ def main():
             continue
         try:
             update_note(note["id"], open(path, encoding="utf-8").read())
-            wb[book].cell(i, COL["動作"], None)
+            wb[book].cell(i, COL["動作"]).value = None
             print(f"  ✓ 已更新：{r['標題']}")
+            save_sheet(wb)
         except Exception as e:
             print(f"  ✗ 更新失敗：{r['標題']} → {e}")
         time.sleep(SLEEP_SECONDS)
@@ -314,6 +329,8 @@ def main():
         del_rows = sorted([i for b, i, _ in pending_delete if b == book], reverse=True)
         for i in del_rows:
             wb[book].delete_rows(i)
+    if pending_delete:
+        save_sheet(wb)
 
     # ---------- 重新產生四本目錄並覆蓋 ----------
     print("\n重新產生目錄筆記…")
