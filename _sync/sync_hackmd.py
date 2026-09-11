@@ -8,18 +8,20 @@
   2. 依表格順序重新產生四本書的目錄筆記，並直接覆蓋到 HackMD
   3. 把新網址寫回表格、清空已處理的動作欄
 
-使用前準備（只需做一次）
-------------------------
+日常使用請雙擊 _sync 底下的 .bat，不用開命令列
+--------------------------------------------
+  首次設定.bat    裝套件 + 用 setx 永久記住 HACKMD_API_TOKEN（只需做一次）
+  同步.bat        處理動作欄並重建目錄
+  只重建目錄.bat   等同 --index-only，只依表格順序重建目錄
+
+手動執行
+--------
 1. 安裝套件：
        python -m pip install requests openpyxl
-2. 設定 API Token（每次開新的命令提示字元都要設一次）：
+2. 設定 API Token（環境變數沒設的話，每個新命令視窗都要設一次）：
        set HACKMD_API_TOKEN=你的token
-
-執行
-----
+3. 執行：
        python sync_hackmd.py
-
-只想重新產生目錄、不處理任何動作時，可加參數：
        python sync_hackmd.py --index-only
 
 修正紀錄
