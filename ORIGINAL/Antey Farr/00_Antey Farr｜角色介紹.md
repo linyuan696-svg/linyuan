@@ -6,7 +6,7 @@ tags: [角色設定]
 
 # Antey Farr｜角色介紹
 
-![Antey Farr](images/Antey Farr.jpg)
+![Antey Farr](https://hackmd.io/_uploads/Skzlz1XPMg.webp)
 
 Antey   Farr
 
