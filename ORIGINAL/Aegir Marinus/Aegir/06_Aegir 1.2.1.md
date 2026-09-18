@@ -1,7 +1,7 @@
 ---
 title: Aegir 1.2.1
 category: ORIGINAL / Aegir Marinus / Aegir
-tags: []
+tags: [Aegir Marinus, TU]
 ---
 
 # Aegir 1.2.1

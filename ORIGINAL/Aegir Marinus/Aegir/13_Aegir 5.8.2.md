@@ -1,7 +1,7 @@
 ---
 title: Aegir 5.8.2
 category: ORIGINAL / Aegir Marinus / Aegir
-tags: []
+tags: [Aegir Marinus, TU]
 ---
 
 # Aegir 5.8.2

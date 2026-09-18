@@ -1,7 +1,7 @@
 ---
 title: SolKar｜Fight
 category: FANFIC / Homestuck
-tags: []
+tags: [Homestuck, SolKar]
 ---
 
 # SolKar｜Fight

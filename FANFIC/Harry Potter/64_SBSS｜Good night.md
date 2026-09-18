@@ -1,7 +1,7 @@
 ---
 title: SBSS｜Good night
 category: FANFIC / Harry Potter
-tags: []
+tags: [Harry Potter, SBSS]
 ---
 
 # SBSS｜Good night

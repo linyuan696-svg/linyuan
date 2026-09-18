@@ -1,7 +1,7 @@
 ---
 title: GamKar｜練筆
 category: FANFIC / Homestuck
-tags: []
+tags: [Homestuck, Others]
 ---
 
 # GamKar｜練筆

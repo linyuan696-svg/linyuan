@@ -1,7 +1,7 @@
 ---
 title: Plat du jour
 category: ORIGINAL / Aegir Marinus / Aegir
-tags: []
+tags: [Aegir Marinus, TU]
 ---
 
 # Plat du jour

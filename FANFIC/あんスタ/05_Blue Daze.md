@@ -1,7 +1,7 @@
 ---
 title: Blue Daze
 category: FANFIC / あんスタ
-tags: []
+tags: [あんスタ, 朔間兄弟]
 ---
 
 # Blue Daze

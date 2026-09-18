@@ -1,7 +1,7 @@
 ---
 title: Unnamed(レノファウ)
 category: FANFIC / まほやく
-tags: []
+tags: [まほやく, ファウスト相關]
 ---
 
 # Unnamed(レノファウ)

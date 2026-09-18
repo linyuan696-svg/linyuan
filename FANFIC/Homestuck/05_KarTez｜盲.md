@@ -1,7 +1,7 @@
 ---
 title: KarTez｜盲
 category: FANFIC / Homestuck
-tags: []
+tags: [Homestuck, KarTez]
 ---
 
 # KarTez｜盲

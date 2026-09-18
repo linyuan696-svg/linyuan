@@ -1,7 +1,7 @@
 ---
 title: Antey 00
 category: ORIGINAL / Antey Farr / Antey
-tags: []
+tags: [Antey Farr]
 ---
 
 # Antey 00

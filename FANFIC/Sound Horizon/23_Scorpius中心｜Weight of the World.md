@@ -1,7 +1,7 @@
 ---
 title: Scorpius中心｜Weight of the World
 category: FANFIC / Sound Horizon
-tags: []
+tags: [Sound Horizon, 其他]
 ---
 
 # Scorpius中心｜Weight of the World

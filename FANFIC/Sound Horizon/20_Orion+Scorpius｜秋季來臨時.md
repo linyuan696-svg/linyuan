@@ -1,7 +1,7 @@
 ---
 title: Orion+Scorpius｜秋季來臨時
 category: FANFIC / Sound Horizon
-tags: []
+tags: [Sound Horizon, 其他]
 ---
 
 # Orion+Scorpius｜秋季來臨時

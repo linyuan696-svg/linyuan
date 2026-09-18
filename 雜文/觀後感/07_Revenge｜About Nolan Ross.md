@@ -1,7 +1,7 @@
 ---
 title: Revenge｜About Nolan Ross
 category: 雜文 / 觀後感
-tags: []
+tags: [觀後感]
 ---
 
 # Revenge｜About Nolan Ross

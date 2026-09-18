@@ -1,7 +1,7 @@
 ---
 title: 骸綱｜Death
 category: FANFIC / 家教
-tags: []
+tags: [家教, 骸綱]
 ---
 
 # 骸綱｜Death

@@ -1,7 +1,7 @@
 ---
 title: Aegir 4.8.1
 category: ORIGINAL / Aegir Marinus / Aegir
-tags: []
+tags: [Aegir Marinus, TU]
 ---
 
 # Aegir 4.8.1

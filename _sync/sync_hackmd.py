@@ -29,6 +29,7 @@
 2026-09-11  每完成一篇就存檔，避免中途中斷時已完成的網址與動作欄全部遺失
 2026-09-11  修正動作欄清不掉：cell(r, c, None) 在 openpyxl 是空操作，改用 .value = None
 2026-09-14  新增「標籤」欄（H）：推送前依表格改寫 md 的 YAML tags 並回寫檔案
+2026-09-18  標籤欄若是公式（openpyxl 讀到的是公式字串非計算結果）則略過並提示
 """
 
 import os
@@ -162,6 +163,10 @@ def apply_tags(path, spec):
     留空=不動；'-'=清空；其餘以 , 、 ， 分隔。回傳最新內容。"""
     content = open(path, encoding="utf-8").read()
     if not spec:
+        return content
+    if spec.startswith("="):
+        print(f"    ⚠ 標籤欄是公式不是文字，已略過：{spec[:30]}")
+        print(f"      請在 Excel 選取該欄 → 複製 → 右鍵「選擇性貼上／值」，再重跑")
         return content
     tags = [] if spec == "-" else [t.strip() for t in re.split(r"[,、，]", spec) if t.strip()]
     new_line = "tags: [" + ", ".join(tags) + "]"

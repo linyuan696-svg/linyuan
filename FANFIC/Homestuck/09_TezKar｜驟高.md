@@ -1,7 +1,7 @@
 ---
 title: TezKar｜驟高
 category: FANFIC / Homestuck
-tags: [性轉]
+tags: [Homestuck, TezKar]
 ---
 
 # TezKar｜驟高

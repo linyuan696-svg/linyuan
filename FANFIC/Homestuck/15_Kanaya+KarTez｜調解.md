@@ -1,7 +1,7 @@
 ---
 title: Kanaya+KarTez｜調解
 category: FANFIC / Homestuck
-tags: []
+tags: [Homestuck, Others]
 ---
 
 # Kanaya+KarTez｜調解

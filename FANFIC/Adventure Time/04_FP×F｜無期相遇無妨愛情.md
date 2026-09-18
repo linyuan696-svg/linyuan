@@ -1,7 +1,7 @@
 ---
 title: FP×F｜無期相遇無妨愛情
 category: FANFIC / Adventure Time
-tags: []
+tags: [Adventure Time, Others]
 ---
 
 # FP×F｜無期相遇無妨愛情

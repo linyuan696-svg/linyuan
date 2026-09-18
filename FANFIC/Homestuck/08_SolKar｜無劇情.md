@@ -1,7 +1,7 @@
 ---
 title: SolKar｜無劇情
 category: FANFIC / Homestuck
-tags: []
+tags: [Homestuck, SolKar]
 ---
 
 # SolKar｜無劇情

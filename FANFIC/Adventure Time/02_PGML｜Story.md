@@ -1,7 +1,7 @@
 ---
 title: PGML｜Story
 category: FANFIC / Adventure Time
-tags: []
+tags: [Adventure Time, PGML]
 ---
 
 # PGML｜Story

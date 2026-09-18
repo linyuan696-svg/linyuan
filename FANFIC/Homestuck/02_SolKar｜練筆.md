@@ -1,7 +1,7 @@
 ---
 title: SolKar｜練筆
 category: FANFIC / Homestuck
-tags: []
+tags: [Homestuck, SolKar]
 ---
 
 # SolKar｜練筆

@@ -1,7 +1,7 @@
 ---
 title: PGML｜恍若陽光
 category: FANFIC / Adventure Time
-tags: []
+tags: [Adventure Time, PGML]
 ---
 
 # PGML｜恍若陽光

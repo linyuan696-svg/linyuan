@@ -1,7 +1,7 @@
 ---
 title: Tacit
 category: FANFIC / 弱虫ペダル
-tags: []
+tags: [弱虫ペダル, 真東]
 ---
 
 # Tacit

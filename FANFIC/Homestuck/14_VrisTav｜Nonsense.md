@@ -1,7 +1,7 @@
 ---
 title: VrisTav｜Nonsense
 category: FANFIC / Homestuck
-tags: []
+tags: [Homestuck, VrisTav]
 ---
 
 # VrisTav｜Nonsense

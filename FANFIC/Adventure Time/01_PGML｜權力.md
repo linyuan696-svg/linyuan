@@ -1,7 +1,7 @@
 ---
 title: PGML｜權力
 category: FANFIC / Adventure Time
-tags: []
+tags: [Adventure Time, PGML]
 ---
 
 # PGML｜權力

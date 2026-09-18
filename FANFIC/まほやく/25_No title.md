@@ -1,7 +1,7 @@
 ---
 title: No title
 category: FANFIC / まほやく
-tags: [=B9&", "&C9]
+tags: [まほやく, フィガ晶♂]
 ---
 
 # No title

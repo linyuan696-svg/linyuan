@@ -1,7 +1,7 @@
 ---
 title: KarTez｜孤寂行星
 category: FANFIC / Homestuck
-tags: []
+tags: [Homestuck, KarTez]
 ---
 
 # KarTez｜孤寂行星

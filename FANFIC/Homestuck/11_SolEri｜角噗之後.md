@@ -1,7 +1,7 @@
 ---
 title: SolEri｜角噗之後
 category: FANFIC / Homestuck
-tags: []
+tags: [Homestuck, Others]
 ---
 
 # SolEri｜角噗之後

@@ -1,7 +1,7 @@
 ---
 title: Death
 category: FANFIC / Harry Potter
-tags: []
+tags: [Harry Potter, 黑兄弟]
 ---
 
 # Death

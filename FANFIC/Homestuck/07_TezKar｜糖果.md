@@ -1,7 +1,7 @@
 ---
 title: TezKar｜糖果
 category: FANFIC / Homestuck
-tags: [性轉]
+tags: [Homestuck, TezKar]
 ---
 
 # TezKar｜糖果

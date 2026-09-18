@@ -1,7 +1,7 @@
 ---
 title: VrisTav｜練筆
 category: FANFIC / Homestuck
-tags: []
+tags: [Homestuck, VrisTav]
 ---
 
 # VrisTav｜練筆

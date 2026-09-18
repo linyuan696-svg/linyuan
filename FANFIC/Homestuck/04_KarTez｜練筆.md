@@ -1,7 +1,7 @@
 ---
 title: KarTez｜練筆
 category: FANFIC / Homestuck
-tags: []
+tags: [Homestuck, KarTez]
 ---
 
 # KarTez｜練筆

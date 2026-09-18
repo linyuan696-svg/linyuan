@@ -1,7 +1,7 @@
 ---
 title: TezKar｜髮夾
 category: FANFIC / Homestuck
-tags: [性轉]
+tags: [Homestuck, TezKar]
 ---
 
 # TezKar｜髮夾

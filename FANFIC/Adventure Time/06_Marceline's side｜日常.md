@@ -1,7 +1,7 @@
 ---
 title: Marceline's side｜日常
 category: FANFIC / Adventure Time
-tags: []
+tags: [Adventure Time, Others]
 ---
 
 # Marceline's side｜日常

@@ -1,7 +1,7 @@
 ---
 title: Aquatica 2.3.1
 category: ORIGINAL / Aegir Marinus / Others(A.M.)
-tags: []
+tags: [Aquatica]
 ---
 
 # Aquatica 2.3.1

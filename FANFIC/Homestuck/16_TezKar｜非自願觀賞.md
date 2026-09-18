@@ -1,7 +1,7 @@
 ---
 title: TezKar｜非自願觀賞
 category: FANFIC / Homestuck
-tags: [性轉]
+tags: [Homestuck, TezKar]
 ---
 
 # TezKar｜非自願觀賞

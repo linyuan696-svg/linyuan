@@ -1,7 +1,7 @@
 ---
 title: SolKar｜眠
 category: FANFIC / Homestuck
-tags: []
+tags: [Homestuck, SolKar]
 ---
 
 # SolKar｜眠

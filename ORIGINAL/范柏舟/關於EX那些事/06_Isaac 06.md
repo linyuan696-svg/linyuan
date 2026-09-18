@@ -1,7 +1,7 @@
 ---
 title: Isaac 06
 category: ORIGINAL / 范柏舟 / 關於EX那些事
-tags: []
+tags: [范柏舟, P&T]
 ---
 
 # Isaac 06

@@ -1,7 +1,7 @@
 ---
 title: Finn's side｜序
 category: FANFIC / Adventure Time
-tags: []
+tags: [Adventure Time, Finn's side]
 ---
 
 # Finn's side｜序
