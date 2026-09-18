@@ -28,6 +28,7 @@
 --------
 2026-09-11  每完成一篇就存檔，避免中途中斷時已完成的網址與動作欄全部遺失
 2026-09-11  修正動作欄清不掉：cell(r, c, None) 在 openpyxl 是空操作，改用 .value = None
+2026-09-14  新增「標籤」欄（H）：推送前依表格改寫 md 的 YAML tags 並回寫檔案
 """
 
 import os
@@ -69,7 +70,7 @@ API_BASE = "https://api.hackmd.io/v1"
 SLEEP_SECONDS = 1.0
 MAX_RETRIES = 6
 
-COL = {"書": 1, "章節": 2, "分區": 3, "顯示標題": 4, "檔案路徑": 5, "動作": 6, "網址": 7}
+COL = {"書": 1, "章節": 2, "分區": 3, "顯示標題": 4, "檔案路徑": 5, "動作": 6, "網址": 7, "標籤": 8}
 
 # ============ 以下不需修改 ============
 
@@ -153,6 +154,34 @@ def backup_sheet():
         os.remove(os.path.join(BACKUP_DIR, old))
 
 
+TAG_LINE = re.compile(r"^tags:.*$", re.M)
+
+
+def apply_tags(path, spec):
+    """依表格的標籤欄改寫 md 的 YAML tags，並回寫檔案。
+    留空=不動；'-'=清空；其餘以 , 、 ， 分隔。回傳最新內容。"""
+    content = open(path, encoding="utf-8").read()
+    if not spec:
+        return content
+    tags = [] if spec == "-" else [t.strip() for t in re.split(r"[,、，]", spec) if t.strip()]
+    new_line = "tags: [" + ", ".join(tags) + "]"
+
+    head_end = content.find("\n---", 4) if content.startswith("---") else -1
+    if head_end == -1:
+        print(f"    ⚠ 沒有 YAML 區塊，略過標籤：{os.path.basename(path)}")
+        return content
+    head, rest = content[:head_end], content[head_end:]
+    if TAG_LINE.search(head):
+        head = TAG_LINE.sub(new_line, head, count=1)
+    else:
+        head = head.rstrip("\n") + "\n" + new_line
+    updated = head + rest
+    if updated != content:
+        open(path, "w", encoding="utf-8", newline="\n").write(updated)
+        print(f"    · 標籤已更新：{new_line}")
+    return updated
+
+
 def save_sheet(wb):
     """即時存檔。失敗不中斷主流程，下一次會再試。"""
     try:
@@ -175,6 +204,7 @@ def read_rows(ws):
             "路徑": (ws.cell(i, COL["檔案路徑"]).value or "").strip(),
             "動作": (ws.cell(i, COL["動作"]).value or "").strip(),
             "網址": (ws.cell(i, COL["網址"]).value or "").strip(),
+            "標籤": (ws.cell(i, COL["標籤"]).value or "").strip(),
         }))
     return out
 
@@ -296,7 +326,7 @@ def main():
         if not path or not os.path.exists(path):
             print(f"  ✗ 新增失敗（找不到檔案）：{r['標題']} ← {r['路徑']}")
             continue
-        content = open(path, encoding="utf-8").read()
+        content = apply_tags(path, r["標籤"])
         try:
             _id, link = create_note(r["標題"], content)
             wb[book].cell(i, COL["網址"]).value = link
@@ -318,7 +348,7 @@ def main():
             print(f"  ✗ 更新失敗（找不到對應筆記）：{r['標題']}")
             continue
         try:
-            update_note(note["id"], open(path, encoding="utf-8").read())
+            update_note(note["id"], apply_tags(path, r["標籤"]))
             wb[book].cell(i, COL["動作"]).value = None
             print(f"  ✓ 已更新：{r['標題']}")
             save_sheet(wb)
