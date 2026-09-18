@@ -1,7 +1,7 @@
 ---
 title: No title
 category: FANFIC / まほやく
-tags: []
+tags: [=B9&", "&C9]
 ---
 
 # No title
