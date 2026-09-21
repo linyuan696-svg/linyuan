@@ -1,7 +1,7 @@
 ---
 title: Solkar｜小貓喵喵喵
 category: FANFIC / Homestuck
-tags: [OOC, R18]
+tags: [Homestuck, SolKar]
 ---
 
 # Solkar｜小貓喵喵喵

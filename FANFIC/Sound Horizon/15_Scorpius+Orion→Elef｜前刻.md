@@ -1,7 +1,7 @@
 ---
 title: Scorpius+Orion→Elef｜前刻
 category: FANFIC / Sound Horizon
-tags: [Sound Horizon, 其他]
+tags: [Sound Horizon, Scorpius, Orion, Elef]
 ---
 
 # Scorpius+Orion→Elef｜前刻

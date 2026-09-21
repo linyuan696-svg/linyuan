@@ -1,7 +1,7 @@
 ---
 title: Aegir Marinus｜角色介紹
 category: ORIGINAL / Aegir Marinus
-tags: [角色設定]
+tags: [角色設定, Aegir Marinus]
 ---
 
 # Aegir Marinus｜角色介紹

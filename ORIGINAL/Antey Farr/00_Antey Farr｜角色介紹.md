@@ -1,7 +1,7 @@
 ---
 title: Antey Farr｜角色介紹
 category: ORIGINAL / Antey Farr
-tags: [角色設定]
+tags: [角色設定, Antey Farr]
 ---
 
 # Antey Farr｜角色介紹

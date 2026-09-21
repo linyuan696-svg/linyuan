@@ -1,7 +1,7 @@
 ---
 title: TODO.avi
 category: FANFIC / 弱虫ペダル
-tags: [弱虫ペダル, 真東]
+tags: [弱虫ペダル, 真東, R18]
 ---
 
 # TODO.avi

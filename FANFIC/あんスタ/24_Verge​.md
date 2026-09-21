@@ -1,7 +1,7 @@
 ---
 title: Verge​
 category: FANFIC / あんスタ
-tags: []
+tags: [あんスタ, 薰奏薰]
 ---
 
 # Verge​

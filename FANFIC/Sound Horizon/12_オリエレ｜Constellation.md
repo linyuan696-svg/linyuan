@@ -1,7 +1,7 @@
 ---
 title: オリエレ｜Constellation
 category: FANFIC / Sound Horizon
-tags: [Sound Horizon, オリエレ]
+tags: [Sound Horizon, オリエレ, Orion, Elef]
 ---
 
 # オリエレ｜Constellation

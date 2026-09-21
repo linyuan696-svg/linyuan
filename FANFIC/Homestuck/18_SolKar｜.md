@@ -1,7 +1,7 @@
 ---
 title: SolKar｜
 category: FANFIC / Homestuck
-tags: []
+tags: [Homestuck, SolKar]
 ---
 
 # SolKar｜

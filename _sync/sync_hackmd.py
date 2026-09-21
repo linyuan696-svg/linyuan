@@ -30,6 +30,13 @@
 2026-09-11  修正動作欄清不掉：cell(r, c, None) 在 openpyxl 是空操作，改用 .value = None
 2026-09-14  新增「標籤」欄（H）：推送前依表格改寫 md 的 YAML tags 並回寫檔案
 2026-09-18  標籤欄若是公式（openpyxl 讀到的是公式字串非計算結果）則略過並提示
+2026-09-19  更新時改用 PATCH 的 tags 參數設定標籤（官方文件未載，見 changelog 2026-01-23）
+2026-09-19  新增「資料夾」欄（I）：新增筆記時用 POST /notes?folderId= 建在指定資料夾；更新不碰資料夾
+2026-09-20  重大修正：PATCH 同時送 content+tags 會把內文清空（已導致 436 篇內容全毀）。
+            改為分兩次送，順序固定「先 tags 後 content」——只送 tags 也會清空內文，順序不可反。
+            PATCH 回 202 只代表收到、不代表寫入完成，每次寫入後一律讀回來比對長度，不符就重送。
+            api() 加上連線失敗重試（先前一次 DNS 瞬斷就讓整支中斷）。
+2026-09-21  刪除時若 HackMD 上已無該篇，改為視同刪除完成、照樣移除表格列（原本會留下死列）。
 """
 
 import os
@@ -71,7 +78,7 @@ API_BASE = "https://api.hackmd.io/v1"
 SLEEP_SECONDS = 1.0
 MAX_RETRIES = 6
 
-COL = {"書": 1, "章節": 2, "分區": 3, "顯示標題": 4, "檔案路徑": 5, "動作": 6, "網址": 7, "標籤": 8}
+COL = {"書": 1, "章節": 2, "分區": 3, "顯示標題": 4, "檔案路徑": 5, "動作": 6, "網址": 7, "標籤": 8, "資料夾": 9}
 
 # ============ 以下不需修改 ============
 
@@ -89,7 +96,13 @@ def api(method, path, **kwargs):
     url = f"{API_BASE}{path}"
     delay = 5
     for attempt in range(1, MAX_RETRIES + 1):
-        resp = requests.request(method, url, headers=HEADERS, timeout=30, **kwargs)
+        try:
+            resp = requests.request(method, url, headers=HEADERS, timeout=30, **kwargs)
+        except requests.exceptions.RequestException as e:
+            wait = min(15 * attempt, 90)
+            print(f"    ⚠ 連不上（{type(e).__name__}），等 {wait} 秒後重試（{attempt}/{MAX_RETRIES}）")
+            time.sleep(wait)
+            continue
         if resp.status_code != 429:
             return resp
         wait = float(resp.headers.get("Retry-After", delay))
@@ -106,7 +119,30 @@ def list_notes():
     return resp.json()
 
 
-def create_note(title, content):
+def list_folders():
+    """回傳 {完整路徑: id, 名稱: id}。名稱重複時只保留完整路徑。"""
+    resp = api("GET", "/folders")
+    if resp.status_code != 200:
+        print(f"  ⚠ 取得資料夾清單失敗（{resp.status_code}），本輪不指定資料夾")
+        return {}
+    fs = {f["id"]: f for f in resp.json()}
+    def path(f):
+        p, cur = [f["name"]], f
+        while cur.get("parentFolderId") in fs:
+            cur = fs[cur["parentFolderId"]]
+            p.append(cur["name"])
+        return "/".join(reversed(p))
+    out, seen = {}, {}
+    for f in fs.values():
+        out[path(f)] = f["id"]
+        seen.setdefault(f["name"], []).append(f["id"])
+    for name, ids in seen.items():
+        if len(ids) == 1:
+            out.setdefault(name, ids[0])
+    return out
+
+
+def create_note(title, content, folder_id=None):
     payload = {
         "title": title or "無標題",
         "content": content,
@@ -114,17 +150,47 @@ def create_note(title, content):
         "writePermission": "owner",
         "commentPermission": "everyone",
     }
-    resp = api("POST", "/notes", json=payload)
+    path = "/notes" + (f"?folderId={folder_id}" if folder_id else "")
+    resp = api("POST", path, json=payload)
     if resp.status_code not in (200, 201):
         raise RuntimeError(f"建立失敗（{resp.status_code}）：{resp.text[:200]}")
     d = resp.json()
     return d["id"], d.get("publishLink") or f"https://hackmd.io/{d['id']}"
 
 
-def update_note(note_id, content):
-    resp = api("PATCH", f"/notes/{note_id}", json={"content": content})
-    if resp.status_code not in (200, 202, 204):
-        raise RuntimeError(f"更新失敗（{resp.status_code}）：{resp.text[:200]}")
+def online_length(note_id):
+    resp = api("GET", f"/notes/{note_id}")
+    if resp.status_code != 200:
+        return None
+    return len(resp.json().get("content") or "")
+
+
+def update_note(note_id, content, tags=None):
+    """先送標籤、再送內容，寫完一定讀回來驗。
+
+    HackMD 的坑（2026-09 實測）：
+      · content 和 tags 同一次 PATCH → 標籤寫進去、內文被清空
+      · 只送 tags → 內文也被清空，所以 tags 一定要排在 content 前面
+      · PATCH 回 202 只是「收到」，內容不一定已寫入，必須讀回來比對
+    """
+    if tags is not None:
+        resp = api("PATCH", f"/notes/{note_id}", json={"tags": tags})
+        if resp.status_code not in (200, 202, 204):
+            raise RuntimeError(f"標籤更新失敗（{resp.status_code}）：{resp.text[:200]}")
+        time.sleep(3)
+
+    want = len(content)
+    for attempt in (1, 2, 3):
+        resp = api("PATCH", f"/notes/{note_id}", json={"content": content})
+        if resp.status_code not in (200, 202, 204):
+            raise RuntimeError(f"更新失敗（{resp.status_code}）：{resp.text[:200]}")
+        time.sleep(5 * attempt * attempt)
+        got = online_length(note_id)
+        if got == want:
+            return
+        print(f"    ⚠ 第 {attempt} 次沒生效（線上 {got} / 應為 {want}），重送")
+    raise RuntimeError(f"內容三次都沒寫進去（線上 {got} / 應為 {want}）；"
+                       f"請確認該篇沒有在瀏覽器開著，編輯器會把舊狀態同步回去")
 
 
 def get_note(note_id):
@@ -156,6 +222,13 @@ def backup_sheet():
 
 
 TAG_LINE = re.compile(r"^tags:.*$", re.M)
+
+
+def parse_tags(spec):
+    """標籤欄 → 清單。留空回 None（不動），'-' 回 []（清空）。"""
+    if not spec or spec.startswith("="):
+        return None
+    return [] if spec == "-" else [t.strip() for t in re.split(r"[,、，]", spec) if t.strip()]
 
 
 def apply_tags(path, spec):
@@ -210,6 +283,7 @@ def read_rows(ws):
             "動作": (ws.cell(i, COL["動作"]).value or "").strip(),
             "網址": (ws.cell(i, COL["網址"]).value or "").strip(),
             "標籤": (ws.cell(i, COL["標籤"]).value or "").strip(),
+            "資料夾": (ws.cell(i, COL["資料夾"]).value or "").strip(),
         }))
     return out
 
@@ -307,8 +381,9 @@ def main():
         for book, i, r in list(pending_delete):
             note = by_link.get(r["網址"])
             if not note:
-                print(f"  找不到對應筆記，略過刪除：{r['標題']}")
-                pending_delete.remove((book, i, r))
+                # HackMD 上已經沒有這篇，視同刪除完成，表格列照樣移除
+                print(f"  HackMD 上已無此篇，仍移除表格列：{r['標題']}")
+                print(f"    （原網址 {r['網址']}；若是網址打錯，該筆記會變成孤兒，請自行確認）")
                 continue
             try:
                 full = get_note(note["id"])
@@ -326,6 +401,7 @@ def main():
             time.sleep(SLEEP_SECONDS)
 
     # ---------- 新增 ----------
+    folders = list_folders() if any(r["資料夾"] for _, _, r in to_create) else {}
     for book, i, r in to_create:
         path = os.path.join(REPO_ROOT, r["路徑"].replace("/", os.sep)) if r["路徑"] else None
         if not path or not os.path.exists(path):
@@ -333,7 +409,12 @@ def main():
             continue
         content = apply_tags(path, r["標籤"])
         try:
-            _id, link = create_note(r["標題"], content)
+            fid = None
+            if r["資料夾"]:
+                fid = folders.get(r["資料夾"])
+                if not fid:
+                    print(f"    ⚠ 找不到資料夾「{r['資料夾']}」，這篇會建在最外層")
+            _id, link = create_note(r["標題"], content, fid)
             wb[book].cell(i, COL["網址"]).value = link
             wb[book].cell(i, COL["動作"]).value = None
             print(f"  ✓ 已新增：{r['標題']}")
@@ -353,7 +434,7 @@ def main():
             print(f"  ✗ 更新失敗（找不到對應筆記）：{r['標題']}")
             continue
         try:
-            update_note(note["id"], apply_tags(path, r["標籤"]))
+            update_note(note["id"], apply_tags(path, r["標籤"]), parse_tags(r["標籤"]))
             wb[book].cell(i, COL["動作"]).value = None
             print(f"  ✓ 已更新：{r['標題']}")
             save_sheet(wb)

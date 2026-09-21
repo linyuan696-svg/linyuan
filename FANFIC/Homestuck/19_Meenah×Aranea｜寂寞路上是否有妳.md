@@ -1,7 +1,7 @@
 ---
 title: Meenah×Aranea｜寂寞路上是否有妳
 category: FANFIC / Homestuck
-tags: [Homestuck, Others]
+tags: [Homestuck, Meenah]
 ---
 
 # Meenah×Aranea｜寂寞路上是否有妳
