@@ -10,9 +10,14 @@
 
 日常使用請雙擊 _sync 底下的 .bat，不用開命令列
 --------------------------------------------
-  首次設定.bat    裝套件 + 用 setx 永久記住 HACKMD_API_TOKEN（只需做一次）
-  同步.bat        處理動作欄並重建目錄
-  只重建目錄.bat   等同 --index-only，只依表格順序重建目錄
+  同步.bat        處理動作欄（新增／更新／刪除）並重建目錄
+  只跑新增.bat     只處理動作欄為「新增」的列，其餘略過；目錄照常重建
+  只重建目錄.bat   只依表格順序重建目錄，不處理動作欄
+  推送內文.bat     把本機內文推上去（見 push_content.py），不碰標籤也不改表格
+
+環境變數 HACKMD_API_TOKEN 要先設好，命令列一次性設定：
+  set HACKMD_API_TOKEN=你的token
+要永久記住就改用 setx（設完要開新的命令視窗才生效）。
 
 手動執行
 --------
@@ -23,6 +28,7 @@
 3. 執行：
        python sync_hackmd.py
        python sync_hackmd.py --index-only
+       python sync_hackmd.py --new-only
 
 修正紀錄
 --------
@@ -37,6 +43,9 @@
             PATCH 回 202 只代表收到、不代表寫入完成，每次寫入後一律讀回來比對長度，不符就重送。
             api() 加上連線失敗重試（先前一次 DNS 瞬斷就讓整支中斷）。
 2026-09-21  刪除時若 HackMD 上已無該篇，改為視同刪除完成、照樣移除表格列（原本會留下死列）。
+2026-10-03  目錄加快取比對：內容沒變就不推，--index-only 仍強制重建。
+2026-10-04  加 --new-only：只跑新增，不必為了一篇新文把整表 435 篇重推一次。
+2026-10-04  說明區塊更新：移除已不存在的 首次設定.bat，補上 只跑新增 / 推送內文。
 """
 
 import os
@@ -59,6 +68,8 @@ DELETED_DIR = os.path.join(REPO_ROOT, "_sync", "deleted")
 BOOKS = ["FANFIC", "ORIGINAL", "Commission", "雜文"]
 
 # 四本書的目錄筆記（發布網址）
+INDEX_CACHE = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".目錄快取")
+
 BOOK_INDEX_URLS = {
     "FANFIC":     "https://hackmd.io/@Riska0813/rJqpMMGvGg",
     "ORIGINAL":   "https://hackmd.io/@Riska0813/HyucXzfwMg",
@@ -330,6 +341,7 @@ def build_index(book, rows):
 
 def main():
     index_only = "--index-only" in sys.argv
+    new_only = "--new-only" in sys.argv
 
     if not os.path.exists(SHEET_PATH):
         print(f"錯誤：找不到對照表 {SHEET_PATH}")
@@ -356,6 +368,8 @@ def main():
                 continue
             if act == "新增":
                 to_create.append((book, i, r))
+            elif new_only:
+                continue
             elif act == "更新":
                 to_update.append((book, i, r))
             elif act == "刪除":
@@ -464,6 +478,12 @@ def main():
         rows = [(i, r) for i, r in rows if r["網址"]]
         content = build_index(book, rows)
 
+        cache = os.path.join(INDEX_CACHE, f"{book}.md")
+        if not index_only and os.path.exists(cache):
+            if open(cache, encoding="utf-8").read() == content:
+                print(f"  · {book} 目錄沒有變動，略過")
+                continue
+
         target = by_link.get(BOOK_INDEX_URLS.get(book, ""))
         if not target:
             out = os.path.join(REPO_ROOT, "_sync", f"目錄_{book}.md")
@@ -473,6 +493,9 @@ def main():
             continue
         try:
             update_note(target["id"], content)
+            os.makedirs(INDEX_CACHE, exist_ok=True)
+            with open(cache, "w", encoding="utf-8", newline="\n") as f:
+                f.write(content)
             print(f"  ✓ {book} 目錄已更新（{len(rows)} 篇）")
         except Exception as e:
             print(f"  ✗ {book} 目錄更新失敗：{e}")

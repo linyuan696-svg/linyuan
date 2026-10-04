@@ -7,10 +7,10 @@ set PY=python
 where python >nul 2>nul
 if errorlevel 1 set PY=py
 echo.
-echo   Restoring article content. This takes about 50 minutes.
+echo   Pushing article content to HackMD.
+echo   With a list file it pushes only those; without one, the whole table.
 echo   You can close this window anytime; it resumes where it stopped.
-echo   Do NOT press any key while it runs.
 echo.
-%PY% -u restore.py
+%PY% -u push_content.py
 echo.
 pause

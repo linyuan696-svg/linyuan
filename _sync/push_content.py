@@ -1,6 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""批次還原內容。只送內容、不碰標籤、不改對照表。可中斷續跑。"""
+"""把本機的內文推上 HackMD。只送內容、不碰標籤、不改對照表、可中斷續跑。
+
+用法
+----
+  推送內文.bat        有「推送清單.txt」就只推清單裡的，沒有就整表全推
+
+清單檔格式：一行一個檔案路徑，跟對照表「檔案路徑」欄一字不差，例如
+  ORIGINAL/Aegir Marinus/Aegir/01_Aegir 0.0.0.md
+
+線上長度跟本機一樣的會自動跳過，所以整表全推也不會重複寫。
+跑之前請確認要推的篇沒有在瀏覽器開著——編輯器會把舊狀態同步回去。
+
+修正紀錄
+2026-10-03  自 restore.py 分出；加清單過濾，進度檔獨立。
+2026-10-04  併回 restore.py：清單檔不存在就整表全推，兩支合一。
+"""
 import os, sys, time, requests, openpyxl
 
 TOKEN = os.environ.get("HACKMD_API_TOKEN")
@@ -10,8 +25,9 @@ H = {"Authorization": f"Bearer {TOKEN}", "Content-Type": "application/json"}
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 SHEET = os.path.join(HERE, "HackMD同步對照表.xlsx")
-DONE_FILE = os.path.join(HERE, "還原進度.txt")
-FAIL_FILE = os.path.join(HERE, "還原失敗.txt")
+DONE_FILE = os.path.join(HERE, "推送進度.txt")
+LIST_FILE = os.path.join(HERE, "推送清單.txt")
+FAIL_FILE = os.path.join(HERE, "推送失敗.txt")
 
 PACE = 7.5          # 每篇最少花這麼多秒（避開 100 次／5 分鐘的限速）
 SETTLE = 3.0        # 送出後等多久才讀回來驗
@@ -55,6 +71,13 @@ for book in wb.sheetnames:
             rows.append({"書": book, "列": i, "標題": str(r[3]),
                          "路徑": str(r[4]), "網址": str(r[6])})
 wb.close()
+
+if os.path.exists(LIST_FILE):
+    want_paths = {l.strip() for l in open(LIST_FILE, encoding="utf-8") if l.strip()}
+    rows = [r for r in rows if r["路徑"] in want_paths]
+    print(f"依清單處理：清單 {len(want_paths)} 篇，對照表對得上 {len(rows)} 篇\n")
+else:
+    print(f"沒有清單檔，整表全推：{len(rows)} 篇\n")
 
 done = set()
 if os.path.exists(DONE_FILE):

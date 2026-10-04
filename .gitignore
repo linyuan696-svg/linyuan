@@ -1,0 +1,7 @@
+# 同步工具的暫存與狀態檔，不需要進版本庫
+_sync/.目錄快取/
+_sync/__pycache__/
+_sync/_to_delete/
+_sync/推送進度.txt
+_sync/推送清單.txt
+_sync/推送失敗.txt
